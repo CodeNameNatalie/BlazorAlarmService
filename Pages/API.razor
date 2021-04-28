@@ -1,0 +1,50 @@
+@page "/alarms"
+@using Alarms.Data
+@inject AlarmService AService
+<h2>Alarms</h2>
+<button class="btn btn-dark" @onclick="CreateAlarm">Create Alarm</button>
+<button class="btn btn-dark" @onclick="Refresh">Refresh</button>
+
+@if (allAlarms == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="50%">Time</th>
+                <th width="25%">Alarm</th>
+                <th width="25%">Equipment</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in allAlarms)
+            {
+                <tr>
+                    <td>@entry.Time.ToShortDateString()</td>
+                    <td>@entry.Alarm</td>
+                    <td>@entry.Equipment</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code{
+    private EachAlarm[] allAlarms;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allAlarms = await AService.GetAlarmAsync(DateTime.Now);
+    }
+    private void CreateAlarm()
+    {
+
+    }
+    private void Refresh()
+    {
+
+    }
+}
